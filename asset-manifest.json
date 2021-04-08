@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/flip-card/static/css/main.1bbd781e.chunk.css",
+    "main.js": "/flip-card/static/js/main.7a1cf8c1.chunk.js",
+    "main.js.map": "/flip-card/static/js/main.7a1cf8c1.chunk.js.map",
+    "runtime-main.js": "/flip-card/static/js/runtime-main.83c8633b.js",
+    "runtime-main.js.map": "/flip-card/static/js/runtime-main.83c8633b.js.map",
+    "static/js/2.6b2c9c49.chunk.js": "/flip-card/static/js/2.6b2c9c49.chunk.js",
+    "static/js/2.6b2c9c49.chunk.js.map": "/flip-card/static/js/2.6b2c9c49.chunk.js.map",
+    "index.html": "/flip-card/index.html",
+    "static/css/main.1bbd781e.chunk.css.map": "/flip-card/static/css/main.1bbd781e.chunk.css.map",
+    "static/js/2.6b2c9c49.chunk.js.LICENSE.txt": "/flip-card/static/js/2.6b2c9c49.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.83c8633b.js",
+    "static/js/2.6b2c9c49.chunk.js",
+    "static/css/main.1bbd781e.chunk.css",
+    "static/js/main.7a1cf8c1.chunk.js"
+  ]
+}
