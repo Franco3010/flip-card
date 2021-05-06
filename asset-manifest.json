@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/flip-card/static/css/main.1bbd781e.chunk.css",
-    "main.js": "/flip-card/static/js/main.eb827fd1.chunk.js",
-    "main.js.map": "/flip-card/static/js/main.eb827fd1.chunk.js.map",
+    "main.js": "/flip-card/static/js/main.a16af80a.chunk.js",
+    "main.js.map": "/flip-card/static/js/main.a16af80a.chunk.js.map",
     "runtime-main.js": "/flip-card/static/js/runtime-main.83c8633b.js",
     "runtime-main.js.map": "/flip-card/static/js/runtime-main.83c8633b.js.map",
     "static/js/2.6623add8.chunk.js": "/flip-card/static/js/2.6623add8.chunk.js",
@@ -15,6 +15,6 @@
     "static/js/runtime-main.83c8633b.js",
     "static/js/2.6623add8.chunk.js",
     "static/css/main.1bbd781e.chunk.css",
-    "static/js/main.eb827fd1.chunk.js"
+    "static/js/main.a16af80a.chunk.js"
   ]
 }
