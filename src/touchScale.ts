@@ -18,13 +18,14 @@ import { ViewportAwareInputHandler } from 'gdxjs/lib/createViewportAwareInputHan
 
 let Compare = 0;
 let accumulate = 0;
+let accumulate1 = 0;
 let z: number = 100;
 const stage = createStage();
 let index = 0;
 let y: number = 100;
 let x: number = 0;
 let a: number;
-
+let accuTouchScale = 0;
 const canvas = stage.getCanvas();
 export const viewport = createViewport(canvas, 55, 100);
 export const gl = viewport.getContext();
@@ -39,20 +40,35 @@ export let oldValue: any[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 let makeSmallItem = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 let makeBigBack = 0;
 let PosiCard: any = [
-  { x: 2, y: 25 },
-  { x: 17.6, y: 25 },
-  { x: 33.2, y: 25 },
-  { x: 2, y: 40.6 },
-  { x: 17.6, y: 40.6 },
-  { x: 33.2, y: 40.6 },
-  { x: 2, y: 56.2 },
-  { x: 17.6, y: 56.2 },
-  { x: 33.2, y: 56.2 },
-  { x: 2, y: 71.8 },
-  { x: 17.6, y: 71.8 },
-  { x: 33.2, y: 71.8 }
+  { x: 4, y: 25 },
+  { x: 20, y: 25 },
+  { x: 36, y: 25 },
+  { x: 4, y: 41 },
+  { x: 20, y: 41 },
+  { x: 36, y: 41 },
+  { x: 4, y: 57 },
+  { x: 20, y: 57 },
+  { x: 36, y: 57 },
+  { x: 4, y: 73 },
+  { x: 20, y: 73 },
+  { x: 36, y: 73 }
 ];
-let FrontBigger = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; //last element check frontBig >1 or not
+let FrontBigger = [
+  -0.9,
+  -0.9,
+  -0.9,
+  -0.9,
+  -0.9,
+  -0.9,
+  -0.9,
+  -0.9,
+  -0.9,
+  -0.9,
+  -0.9,
+  -0.9,
+  0,
+  0
+]; //last element check frontBig >1 or not
 
 let touchItem = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 100];
 let touchItemFake = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -70,26 +86,26 @@ export function touchScale(
   atlat: TextureAtlas,
   randomIndexArr: number,
   coorX: number,
-  coorY: number
+  coorY: number,
+  delta: number
 ) {
   if (touchitem == 0) {
-    back.draw(batch, coorX, coorY, 13.6, 13.6, 5, 5, 0, 1, 1);
-  } else if (touchitem == 1) {
-    if (smallBack > 0.01 && Compare == 0) {
-      back.draw(batch, coorX, coorY, 13.6, 13.6, 5, 5, 0, smallBack, 1);
-    } else if (smallBack < 0.01) {
-      if (frontbig < 1 && Compare == 0) {
-        atlat
-          .findRegion('item', randomIndexArr)
-          .draw(batch, coorX, coorY, 13.6, 13.6, 5, 5, 0, frontbig, 1);
-      } else if (frontbig > 1 && Compare == 0) {
-        atlat
-          .findRegion('item', randomIndexArr)
-          .draw(batch, coorX, coorY, 13.6, 13.6, 5, 5, 0, 1, 1);
-      }
+    back.draw(batch, coorX, coorY, 15, 15, 5, 5, 0, 1, 1);
+  } else if (touchitem == 1 && smallBack > 0.01 && Compare == 0) {
+    back.draw(batch, coorX, coorY, 15, 15, 5, 5, 0, smallBack, 1);
+  } else if (touchitem == 1 && smallBack < 0.01) {
+    if (frontbig < 1 && Compare == 0) {
+      atlat
+        .findRegion('item', randomIndexArr)
+        .draw(batch, coorX, coorY, 15, 15, 5, 5, 0, frontbig, 1);
+    } else if (frontbig > 1 && Compare == 0) {
+      atlat
+        .findRegion('item', randomIndexArr)
+        .draw(batch, coorX, coorY, 15, 15, 5, 5, 0, 1, 1);
     }
   }
 }
+
 function checkNumberTouchItem() {
   for (let i = 0; i < 12; i++) {
     if (touchItem[i] == 1 && i != x) {
@@ -249,7 +265,7 @@ export function backsmaller(
     }
   }
   if (touchitem == 1) {
-    return (backSmall[item] -= 8 * delta);
+    return (backSmall[item] -= 7 * delta);
   } else {
     return backSmall[item];
   }
@@ -259,13 +275,8 @@ export function frontbiger(
   delta: number,
   touchitem: number | undefined
 ) {
-  for (let i = 0; i < FrontBigger.length; i++) {
-    if (i == item) {
-      break;
-    }
-  }
   if (touchitem == 1) {
-    return (FrontBigger[item] += 8 * delta);
+    return (FrontBigger[item] += 7 * delta);
   } else {
     return FrontBigger[item];
   }
@@ -291,7 +302,6 @@ export function push_IndexOf_RandomIndexArrToCompare() {
       z = touchItemFake[i] - 1;
     }
   }
-  console.log(numberTouchItem);
 }
 
 export function checkLastEle_FrontBig() {
@@ -319,6 +329,7 @@ export function checkCardPosi() {
     }
   }
 }
+
 export function compare(
   delta: number,
   atlat: TextureAtlas,
@@ -332,10 +343,10 @@ export function compare(
       if (accumulate < 0.5) {
         atlat
           .findRegion('item', randomIndexArr[x])
-          .draw(batch, PosiCard[x].x, PosiCard[x].y, 13.6, 13.6, 5, 5, 0, 1, 1);
+          .draw(batch, PosiCard[x].x, PosiCard[x].y, 15, 15, 5, 5, 0, 1, 1);
         atlat
           .findRegion('item', randomIndexArr[z])
-          .draw(batch, PosiCard[z].x, PosiCard[z].y, 13.6, 13.6, 5, 5, 0, 1, 1);
+          .draw(batch, PosiCard[z].x, PosiCard[z].y, 15, 15, 5, 5, 0, 1, 1);
       }
       if (
         makeSmallItem[x] > 0.01 &&
@@ -348,12 +359,12 @@ export function compare(
             batch,
             PosiCard[x].x,
             PosiCard[x].y,
-            13.6,
-            13.6,
+            15,
+            15,
             5,
             5,
             0,
-            (makeSmallItem[x] -= 8 * delta),
+            (makeSmallItem[x] -= 7 * delta),
             1
           );
         atlat
@@ -362,27 +373,32 @@ export function compare(
             batch,
             PosiCard[z].x,
             PosiCard[z].y,
-            13.6,
-            13.6,
+            15,
+            15,
             5,
             5,
             0,
-            (makeSmallItem[z] -= 8 * delta),
+            (makeSmallItem[z] -= 7 * delta),
             1
           );
       }
 
-      if (makeSmallItem[x] < 0.01 && makeBigBack < 1) {
+      if (
+        makeSmallItem[x] < 0.01 &&
+        makeSmallItem[z] < 0.01 &&
+        makeBigBack < 1
+      ) {
+        accumulate1 += delta;
         back.draw(
           batch,
           PosiCard[x].x,
           PosiCard[x].y,
-          13.6,
-          13.6,
+          15,
+          15,
           7.3,
           7.3,
           0,
-          (makeBigBack += 8 * delta),
+          (makeBigBack += 6 * delta),
           1
         );
 
@@ -390,41 +406,19 @@ export function compare(
           batch,
           PosiCard[z].x,
           PosiCard[z].y,
-          13.6,
-          13.6,
+          15,
+          15,
           7.3,
           7.3,
           0,
-          (makeBigBack += 8 * delta),
+          (makeBigBack += 6 * delta),
           1
         );
       }
       if (makeBigBack > 1) {
-        back.draw(
-          batch,
-          PosiCard[x].x,
-          PosiCard[x].y,
-          13.6,
-          13.6,
-          5,
-          5,
-          0,
-          1,
-          1
-        );
+        back.draw(batch, PosiCard[x].x, PosiCard[x].y, 15, 15, 5, 5, 0, 1, 1);
 
-        back.draw(
-          batch,
-          PosiCard[z].x,
-          PosiCard[z].y,
-          13.6,
-          13.6,
-          5,
-          5,
-          0,
-          1,
-          1
-        );
+        back.draw(batch, PosiCard[z].x, PosiCard[z].y, 15, 15, 5, 5, 0, 1, 1);
         touchItem[x] = 0; // rs touchItem
         touchItem[z] = 0;
         backSmall[x] = 1;
@@ -432,10 +426,11 @@ export function compare(
         makeBigBack = 0;
         makeSmallItem[x] = 1;
         makeSmallItem[z] = 1;
-        FrontBigger[x] = 0;
-        FrontBigger[z] = 0;
+        FrontBigger[x] = -0.9;
+        FrontBigger[z] = -0.9;
         Compare = 0;
         accumulate = 0;
+        accumulate1 = 0;
         touchItemFake[x] = 0;
         touchItemFake[z] = 0;
         FrontBigger[12] = 0;
@@ -454,8 +449,8 @@ export function compare(
             batch,
             PosiCard[x].x,
             PosiCard[x].y,
-            13.6,
-            13.6,
+            15,
+            15,
             5,
             5,
             0,
@@ -468,8 +463,8 @@ export function compare(
             batch,
             PosiCard[z].x,
             PosiCard[z].y,
-            13.6,
-            13.6,
+            15,
+            15,
             5,
             5,
             0,
